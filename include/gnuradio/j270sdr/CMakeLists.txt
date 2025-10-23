@@ -10,4 +10,5 @@
 # Install public header files
 ########################################################################
 install(FILES api.h
-    J270SDRReceiver.h DESTINATION include/gnuradio/j270sdr)
+    J270SDRReceiver.h
+    J270SDRTransmitter.h DESTINATION include/gnuradio/j270sdr)

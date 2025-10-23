@@ -35,3 +35,4 @@ add_custom_target(
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}
             ${PROJECT_BINARY_DIR}/test_modules/gnuradio/j270sdr/)
 GR_ADD_TEST(qa_J270SDRReceiver ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_J270SDRReceiver.py)
+GR_ADD_TEST(qa_J270SDRTransmitter ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_J270SDRTransmitter.py)

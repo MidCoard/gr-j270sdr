@@ -25,7 +25,8 @@ include(GrPybind)
 ########################################################################
 
 list(APPEND j270sdr_python_files
-    J270SDRReceiver_python.cc python_bindings.cc)
+    J270SDRReceiver_python.cc
+    J270SDRTransmitter_python.cc python_bindings.cc)
 
 gr_pybind_make_oot(j270sdr ../../.. gr::j270sdr "${j270sdr_python_files}")
 

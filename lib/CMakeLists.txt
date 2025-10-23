@@ -12,7 +12,8 @@
 include(GrPlatform) #define LIB_SUFFIX
 
 list(APPEND j270sdr_sources
-    J270SDRReceiver_impl.cc)
+    J270SDRReceiver_impl.cc
+    J270SDRTransmitter_impl.cc)
 
 set(j270sdr_sources
     "${j270sdr_sources}"
@@ -77,6 +78,7 @@ include(GrTest)
 # List all files that contain Boost.UTF unit tests here
 
 list(APPEND test_j270sdr_sources
+qa_J270SDRTransmitter.cc
 )
 # Anything we need to link to for the unit tests go here
 list(APPEND GR_TEST_TARGET_DEPS gnuradio-j270sdr)
