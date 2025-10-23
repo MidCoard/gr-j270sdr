@@ -1,0 +1,6 @@
+/*!
+ * \defgroup block GNU Radio J270SDR C++ Signal Processing Blocks
+ * \brief All C++ blocks that can be used from the J270SDR GNU Radio
+ *        module are listed here or in the subcategories below.
+ *
+ */

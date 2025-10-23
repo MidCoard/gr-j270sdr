@@ -1,0 +1,22 @@
+id: j270sdr_J270SDRReceiver
+label: J270SDRReceiver
+category: '[j270sdr]'
+
+templates:
+  imports: from gnuradio import j270sdr
+  make: j270sdr.J270SDRReceiver(${sample_rate})
+
+parameters:
+- id: sample_rate
+  label: Sample Rate (Hz)
+  dtype: float
+  default: 1e6
+
+inputs: []
+
+outputs:
+- label: out
+  domain: stream
+  dtype: float
+
+file_format: 1
