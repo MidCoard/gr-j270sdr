@@ -23,7 +23,7 @@
 
 namespace py = pybind11;
 
-#include <gnuradio/j270sdr/J270SDRTransmitter.h>
+#include <j270sdr/J270SDRTransmitter.h>
 // pydoc.h is automatically generated in the build directory
 #include <J270SDRTransmitter_pydoc.h>
 

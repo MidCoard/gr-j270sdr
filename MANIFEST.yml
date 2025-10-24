@@ -1,20 +1,17 @@
 title: The J270SDR OOT Module
 version: 1.0
-brief: Short description of gr-j270sdr
-tags: # Tags are arbitrary, but look at CGRAN what other authors are using
+brief: j270sdr transmitter and receiver blocks for GNU Radio
+tags:
   - sdr
 author:
-  - Author Name <authors@email.address>
+  - MidCoard <focess@focess.top>
 copyright_owner:
-  - Copyright Owner 1
+  - MidCoard
 license:
 gr_supported_version:
   - 3.X
-repo: # Put the URL of the repository here
-website: # If you have a separate project website, put it here
-#icon: # Put a URL to a square image here that will be used as an icon
+repo:
+website:
 description: |-
-  A longer, multi-line description of gr-j270sdr.
-  You may use some *basic* Markdown here.
-  If left empty, it will try to find a README file instead.
+  j270sdr transmitter and receiver blocks for GNU Radio.
 file_format: 1

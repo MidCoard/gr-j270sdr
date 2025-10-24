@@ -17,6 +17,6 @@ inputs: []
 outputs:
 - label: out
   domain: stream
-  dtype: float
+  dtype: complex
 
 file_format: 1

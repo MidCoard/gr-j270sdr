@@ -19,9 +19,6 @@
  static const char *__doc_gr_j270sdr_J270SDRReceiver = R"doc()doc";
 
 
- static const char *__doc_gr_j270sdr_J270SDRReceiver_J270SDRReceiver_0 = R"doc()doc";
-
-
  static const char *__doc_gr_j270sdr_J270SDRReceiver_make = R"doc()doc";
 
   

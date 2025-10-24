@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(1)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(J270SDRReceiver.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(58b6561fd398f2d19f6460bc2a4f7e1c)                     */
+/* BINDTOOL_HEADER_FILE_HASH(8f3f23947f1fdf338bfc498e4a5bd44e)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -23,7 +23,7 @@
 
 namespace py = pybind11;
 
-#include <gnuradio/j270sdr/J270SDRReceiver.h>
+#include <j270sdr/J270SDRReceiver.h>
 // pydoc.h is automatically generated in the build directory
 #include <J270SDRReceiver_pydoc.h>
 
@@ -37,6 +37,7 @@ void bind_J270SDRReceiver(py::module& m)
         std::shared_ptr<J270SDRReceiver>>(m, "J270SDRReceiver", D(J270SDRReceiver))
 
         .def(py::init(&J270SDRReceiver::make),
+           py::arg("sample_rate"),
            D(J270SDRReceiver,make)
         )
         
