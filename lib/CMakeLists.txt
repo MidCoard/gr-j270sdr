@@ -13,7 +13,9 @@ include(GrPlatform) #define LIB_SUFFIX
 
 list(APPEND j270sdr_sources
     J270SDRReceiver_impl.cc
-    J270SDRTransmitter_impl.cc)
+    J270SDRTransmitter_impl.cc
+    GRScope.cpp
+    )
 
 set(j270sdr_sources
     "${j270sdr_sources}"

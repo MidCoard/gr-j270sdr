@@ -14,7 +14,6 @@ namespace gr {
 
     BOOST_AUTO_TEST_CASE(test_J270SDRTransmitter_replace_with_specific_test_name)
     {
-      // Put test here
     }
 
   } /* namespace j270sdr */

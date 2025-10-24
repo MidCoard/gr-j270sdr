@@ -11,10 +11,7 @@
 namespace gr {
   namespace j270sdr {
 
-    #pragma message("set the following appropriately and remove this warning")
-    using input_type = float;
-    #pragma message("set the following appropriately and remove this warning")
-    using output_type = float;
+    using input_type = gr_complex;
     J270SDRTransmitter::sptr
     J270SDRTransmitter::make(float a)
     {
@@ -29,15 +26,9 @@ namespace gr {
     J270SDRTransmitter_impl::J270SDRTransmitter_impl(float a)
       : gr::block("J270SDRTransmitter",
               gr::io_signature::make(1 /* min inputs */, 1 /* max inputs */, sizeof(input_type)),
-              gr::io_signature::make(1 /* min outputs */, 1 /*max outputs */, sizeof(output_type)))
+              gr::io_signature::make(0 /* min outputs */, 0 /*max outputs */, 0)), instance(init())
     {}
 
-    /*
-     * Our virtual destructor.
-     */
-    J270SDRTransmitter_impl::~J270SDRTransmitter_impl()
-    {
-    }
 
     void
     J270SDRTransmitter_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
@@ -53,15 +44,9 @@ namespace gr {
                        gr_vector_void_star &output_items)
     {
       auto in = static_cast<const input_type*>(input_items[0]);
-      auto out = static_cast<output_type*>(output_items[0]);
 
-      #pragma message("Implement the signal processing in your block and remove this warning")
-      // Do <+signal processing+>
-      // Tell runtime system how many input items we consumed on
-      // each input stream.
+
       consume_each (noutput_items);
-
-      // Tell runtime system how many output items we produced.
       return noutput_items;
     }
 

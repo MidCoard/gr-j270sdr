@@ -9,14 +9,13 @@
 #include "J270SDRReceiver_impl.h"
 #include <algorithm>
 #include "J270SDR.h"
+#include "util.h"
 
 namespace gr {
   namespace j270sdr {
 
-    #pragma message("set the following appropriately and remove this warning")
-    using input_type = float;
-    #pragma message("set the following appropriately and remove this warning")
-    using output_type = float;
+    using output_type = gr_complex;
+    std::vector<uint16_t> buffer;
     J270SDRReceiver::sptr
     J270SDRReceiver::make(double sample_rate)
     {
@@ -32,14 +31,27 @@ namespace gr {
       : gr::block("J270SDRReceiver",
               gr::io_signature::make(0 /* min inputs */, 0 /* max inputs */, 0),
               gr::io_signature::make(1 /* min outputs */, 1 /*max outputs */, sizeof(output_type)))
-      , d_sample_rate(sample_rate)
-    {}
+      , d_sample_rate(sample_rate), instance(init())
+    {
+
+
+        // instance->registerReadCallback(util::defaultReadRegisterCallback);
+        //
+        // auto func = util::generateDataCallback([](uint8_t *data, size_t length){
+        //
+        // });
+        // std::thread processingThread(func);
+        instance->startRxThread();
+    }
+    J270SDRReceiver_impl::~J270SDRReceiver_impl()
+    {
+        // util::exit();
+    }
 
     void
     J270SDRReceiver_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-    #pragma message("implement a forecast that fills in how many items on each input you need to produce noutput_items and remove this warning")
-      (void)noutput_items;
+        buffer.resize(noutput_items * 2);
       ninput_items_required.clear();
     }
 
@@ -49,21 +61,15 @@ namespace gr {
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)
     {
-      // 无输入块，不访问 input_items
-      (void)ninput_items;
-      (void)input_items;
-
       auto out = static_cast<output_type*>(output_items[0]);
 
-      #pragma message("Implement the signal processing in your block and remove this warning")
-      // 生成占位输出（全 0），以避免未初始化数据
-      std::fill_n(out, noutput_items, static_cast<output_type>(0));
+        instance->read((uint8_t*)buffer.data(), noutput_items * 2);
+        for (int i = 0; i < noutput_items; i++)
+            out[i] = output_type(buffer[i * 2], buffer[i * 2 + 1]);
 
-      // 无输入，无需 consume_each
-
-      // 告知运行时我们生产了多少输出项
       return noutput_items;
     }
 
   } /* namespace j270sdr */
 } /* namespace gr */
+

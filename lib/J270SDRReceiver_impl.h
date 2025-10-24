@@ -9,6 +9,7 @@
 #define INCLUDED_J270SDR_J270SDRRECEIVER_IMPL_H
 
 #include <gnuradio/j270sdr/J270SDRReceiver.h>
+#include "GRScope.h"
 
 namespace gr {
   namespace j270sdr {
@@ -16,12 +17,12 @@ namespace gr {
     class J270SDRReceiver_impl : public J270SDRReceiver
     {
      private:
-      // Nothing to declare in this block.
+      std::shared_ptr<J270SDR> instance;
       double d_sample_rate;
 
      public:
       explicit J270SDRReceiver_impl(double sample_rate);
-      ~J270SDRReceiver_impl() override = default;
+      ~J270SDRReceiver_impl() override;
 
       // Where all the action really happens
       void forecast (int noutput_items, gr_vector_int &ninput_items_required) override;
