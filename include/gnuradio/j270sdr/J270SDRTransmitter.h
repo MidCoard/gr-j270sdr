@@ -8,7 +8,7 @@
 #ifndef INCLUDED_J270SDR_J270SDRTRANSMITTER_H
 #define INCLUDED_J270SDR_J270SDRTRANSMITTER_H
 
-#include <j270sdr/api.h>
+#include <gnuradio/j270sdr/api.h>
 #include <gnuradio/block.h>
 
 namespace gr {

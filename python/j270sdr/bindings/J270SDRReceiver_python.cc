@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(1)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(J270SDRReceiver.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(8f3f23947f1fdf338bfc498e4a5bd44e)                     */
+/* BINDTOOL_HEADER_FILE_HASH(fb216193b775e7a1406b806445d8aac4)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -23,7 +23,7 @@
 
 namespace py = pybind11;
 
-#include <j270sdr/J270SDRReceiver.h>
+#include <gnuradio/j270sdr/J270SDRReceiver.h>
 // pydoc.h is automatically generated in the build directory
 #include <J270SDRReceiver_pydoc.h>
 

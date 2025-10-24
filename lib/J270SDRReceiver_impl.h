@@ -8,7 +8,7 @@
 #ifndef INCLUDED_J270SDR_J270SDRRECEIVER_IMPL_H
 #define INCLUDED_J270SDR_J270SDRRECEIVER_IMPL_H
 
-#include <j270sdr/J270SDRReceiver.h>
+#include <gnuradio/j270sdr/J270SDRReceiver.h>
 #include "GRScope.h"
 
 namespace gr {

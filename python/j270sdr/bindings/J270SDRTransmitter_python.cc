@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(1)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(J270SDRTransmitter.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(4aa7437197f49fd72c43d65ef48f62ae)                     */
+/* BINDTOOL_HEADER_FILE_HASH(2e0407d74dfd1d6fd52411bea6b3eede)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -23,7 +23,7 @@
 
 namespace py = pybind11;
 
-#include <j270sdr/J270SDRTransmitter.h>
+#include <gnuradio/j270sdr/J270SDRTransmitter.h>
 // pydoc.h is automatically generated in the build directory
 #include <J270SDRTransmitter_pydoc.h>
 
@@ -37,6 +37,7 @@ void bind_J270SDRTransmitter(py::module& m)
         std::shared_ptr<J270SDRTransmitter>>(m, "J270SDRTransmitter", D(J270SDRTransmitter))
 
         .def(py::init(&J270SDRTransmitter::make),
+           py::arg("a"),
            D(J270SDRTransmitter,make)
         )
         
