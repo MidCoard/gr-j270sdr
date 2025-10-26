@@ -15,7 +15,7 @@ namespace gr {
 namespace j270sdr {
 
 using output_type = gr_complex;
-std::vector<uint16_t> buffer;
+std::vector<int16_t> buffer;
 J270SDRReceiver::sptr
 J270SDRReceiver::make(int sample_rate, int points)
 {
@@ -42,6 +42,7 @@ J270SDRReceiver_impl::~J270SDRReceiver_impl()
 void
 J270SDRReceiver_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
 {
+    std::cout << "fuck me " << std::endl;
 }
 
 int
@@ -51,15 +52,20 @@ J270SDRReceiver_impl::general_work (int noutput_items,
                    gr_vector_void_star &output_items)
 {
     auto out = static_cast<output_type*>(output_items[0]);
+    std::cout << "J270SDRReceiver_impl::general_work noutput_items: " << noutput_items << std::endl;
     buffer.resize(noutput_items * 2);
-
-    instance->read((uint8_t*)buffer.data(), noutput_items * 4);
-    for (int i = 0; i < noutput_items; i++)
-        out[i] = output_type(buffer[i * 2], buffer[i * 2 + 1]);
-    d_read_points += noutput_items;
-    if (d_read_points > d_points)
-        return WORK_DONE;
-    return noutput_items;
+    bool status = instance->read((uint8_t*)buffer.data(), noutput_items * 4);
+    if (status) {
+        for (int i = 0; i < noutput_items; i++)
+            out[i] = output_type(buffer[i * 2] / 65535.0, buffer[i * 2 + 1] / 65535.0);
+        d_read_points += noutput_items;
+        std::cout << "J270SDRReceiver_impl::general_work d_read_points: " << d_read_points << std::endl;
+        if (d_read_points > d_points)
+            return WORK_DONE;
+        return noutput_items;
+    }
+    std::cout << "J270SDRReceiver_impl::general_work read failed" << std::endl;
+    return 0;
 }
 
 } /* namespace j270sdr */
