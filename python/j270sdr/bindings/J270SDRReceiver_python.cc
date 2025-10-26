@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Free Software Foundation, Inc.
+* Copyright 2025 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -40,7 +40,7 @@ void bind_J270SDRReceiver(py::module& m)
            py::arg("sample_rate"), py::arg("points"),
            D(J270SDRReceiver,make)
         )
-        
+
 
 
 
