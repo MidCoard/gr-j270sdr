@@ -4,23 +4,14 @@ category: '[j270sdr]'
 
 templates:
   imports: from gnuradio import j270sdr
-  make: j270sdr.J270SDRReceiver(${sample_rate}, ${points})
+  make: j270sdr.J270SDRReceiver(${points})
 
 parameters:
-  - id: sample_rate
-    label: Sample Rate (Hz)
-    dtype: int
-    default: 4000000
-
   - id: points
     label: Points
     dtype: int
     default: 10240
 
-- id: points
-  label: Points
-  dtype: int
-  default: 10240
 
 inputs: []
 
