@@ -30,31 +30,19 @@ namespace py = pybind11;
 void bind_J270SDRTransmitter(py::module& m)
 {
 
-    using J270SDRTransmitter    = gr::j270sdr::J270SDRTransmitter;
+    using J270SDRTransmitter = gr::j270sdr::J270SDRTransmitter;
 
 
-    py::class_<J270SDRTransmitter, gr::block, gr::basic_block,
-        std::shared_ptr<J270SDRTransmitter>>(m, "J270SDRTransmitter", D(J270SDRTransmitter))
+    py::class_<J270SDRTransmitter,
+               gr::block,
+               gr::basic_block,
+               std::shared_ptr<J270SDRTransmitter>>(
+        m, "J270SDRTransmitter", D(J270SDRTransmitter))
 
         .def(py::init(&J270SDRTransmitter::make),
-           py::arg("a"),
-           D(J270SDRTransmitter,make)
-        )
-        
-
+             py::arg("a"),
+             D(J270SDRTransmitter, make))
 
 
         ;
-
-
-
-
 }
-
-
-
-
-
-
-
-

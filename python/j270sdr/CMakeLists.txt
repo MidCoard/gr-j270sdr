@@ -10,16 +10,16 @@
 # Include python install macros
 ########################################################################
 include(GrPython)
-if(NOT PYTHONINTERP_FOUND)
+if (NOT PYTHONINTERP_FOUND)
     return()
-endif()
+endif ()
 
 add_subdirectory(bindings)
 
 ########################################################################
 # Install python sources
 ########################################################################
-gr_python_install(FILES __init__.py DESTINATION ${GR_PYTHON_DIR}/gnuradio/j270sdr)
+gr_python_install(FILES __init__.py DESTINATION ${GR_PYTHON_DIR}/../../../lib/site-packages/gnuradio/j270sdr)
 
 ########################################################################
 # Handle the unit tests
@@ -31,8 +31,8 @@ set(GR_TEST_TARGET_DEPS gnuradio-j270sdr)
 # Create a package directory that tests can import. It includes everything
 # from `python/`.
 add_custom_target(
-    copy_module_for_tests ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}
-            ${PROJECT_BINARY_DIR}/test_modules/gnuradio/j270sdr/)
+        copy_module_for_tests ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}
+        ${PROJECT_BINARY_DIR}/test_modules/gnuradio/j270sdr/)
 GR_ADD_TEST(qa_J270SDRReceiver ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_J270SDRReceiver.py)
 GR_ADD_TEST(qa_J270SDRTransmitter ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_J270SDRTransmitter.py)
