@@ -32,7 +32,7 @@ namespace gr {
        * class. j270sdr::J270SDRReceiver::make is the public interface for
        * creating new instances.
        */
-      static sptr make(double sample_rate);
+      static sptr make(int sample_rate, int points);
     };
 
   } // namespace j270sdr

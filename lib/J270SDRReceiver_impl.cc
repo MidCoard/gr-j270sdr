@@ -17,42 +17,31 @@ namespace gr {
     using output_type = gr_complex;
     std::vector<uint16_t> buffer;
     J270SDRReceiver::sptr
-    J270SDRReceiver::make(double sample_rate)
+    J270SDRReceiver::make(int sample_rate, int points)
     {
       return gnuradio::make_block_sptr<J270SDRReceiver_impl>(
-        sample_rate);
+        sample_rate, points);
     }
 
 
     /*
      * The private constructor
      */
-    J270SDRReceiver_impl::J270SDRReceiver_impl(double sample_rate)
+    J270SDRReceiver_impl::J270SDRReceiver_impl(int sample_rate, int points)
       : gr::block("J270SDRReceiver",
               gr::io_signature::make(0 /* min inputs */, 0 /* max inputs */, 0),
               gr::io_signature::make(1 /* min outputs */, 1 /*max outputs */, sizeof(output_type)))
-      , d_sample_rate(sample_rate), instance(init())
+      , d_sample_rate(sample_rate), d_points(points), instance(init())
     {
-
-
-        // instance->registerReadCallback(util::defaultReadRegisterCallback);
-        //
-        // auto func = util::generateDataCallback([](uint8_t *data, size_t length){
-        //
-        // });
-        // std::thread processingThread(func);
         instance->startRxThread();
     }
     J270SDRReceiver_impl::~J270SDRReceiver_impl()
     {
-        // util::exit();
     }
 
     void
     J270SDRReceiver_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-        buffer.resize(noutput_items * 2);
-      ninput_items_required.clear();
     }
 
     int

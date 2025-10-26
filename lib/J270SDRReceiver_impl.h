@@ -18,13 +18,13 @@ namespace gr {
     {
      private:
       std::shared_ptr<J270SDR> instance;
-      double d_sample_rate;
+      int d_sample_rate;
+        int d_points;
 
      public:
-      explicit J270SDRReceiver_impl(double sample_rate);
+      explicit J270SDRReceiver_impl(int sample_rate, int points);
       ~J270SDRReceiver_impl() override;
 
-      // Where all the action really happens
       void forecast (int noutput_items, gr_vector_int &ninput_items_required) override;
 
       int general_work(int noutput_items,
