@@ -17,6 +17,11 @@ parameters:
     dtype: int
     default: 10240
 
+- id: points
+  label: Points
+  dtype: int
+  default: 10240
+
 inputs: []
 
 outputs:
