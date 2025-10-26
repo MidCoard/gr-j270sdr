@@ -7,16 +7,21 @@ templates:
   make: j270sdr.J270SDRReceiver(${sample_rate})
 
 parameters:
-- id: sample_rate
-  label: Sample Rate (Hz)
-  dtype: float
-  default: 1e6
+  - id: sample_rate
+    label: Sample Rate (Hz)
+    dtype: int
+    default: 1e6
+
+  - id: points
+    label: Points
+    dtype: int
+    default: 10240
 
 inputs: []
 
 outputs:
-- label: out
-  domain: stream
-  dtype: complex
+  - label: out
+    domain: stream
+    dtype: complex
 
 file_format: 1

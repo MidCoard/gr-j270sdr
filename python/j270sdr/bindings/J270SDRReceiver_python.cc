@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Free Software Foundation, Inc.
+* Copyright 2025 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -37,10 +37,10 @@ void bind_J270SDRReceiver(py::module& m)
         std::shared_ptr<J270SDRReceiver>>(m, "J270SDRReceiver", D(J270SDRReceiver))
 
         .def(py::init(&J270SDRReceiver::make),
-           py::arg("sample_rate"),
+           py::arg("sample_rate"), py::arg("points"),
            D(J270SDRReceiver,make)
         )
-        
+
 
 
 
