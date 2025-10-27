@@ -1,5 +1,5 @@
 /*
-* Copyright 2025 Free Software Foundation, Inc.
+ * Copyright 2025 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(1)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(J270SDRReceiver.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(8f3f23947f1fdf338bfc498e4a5bd44e)                     */
+/* BINDTOOL_HEADER_FILE_HASH(db663d29905df83948ddfd05c14f40dd)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -37,10 +37,10 @@ void bind_J270SDRReceiver(py::module& m)
         std::shared_ptr<J270SDRReceiver>>(m, "J270SDRReceiver", D(J270SDRReceiver))
 
         .def(py::init(&J270SDRReceiver::make),
-            py::arg("points"),
+           py::arg("points"),
            D(J270SDRReceiver,make)
         )
-
+        
 
 
 
