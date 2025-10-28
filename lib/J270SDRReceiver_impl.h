@@ -22,7 +22,7 @@ private:
     int d_read_points = 0;
 
 public:
-    explicit J270SDRReceiver_impl(int points);
+    explicit J270SDRReceiver_impl(int points, bool dds);
     ~J270SDRReceiver_impl() override;
 
     void forecast (int noutput_items, gr_vector_int &ninput_items_required) override;

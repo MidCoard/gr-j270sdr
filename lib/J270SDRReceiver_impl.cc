@@ -17,24 +17,28 @@ namespace j270sdr {
 using output_type = gr_complex;
 static std::vector<int16_t> buffer;
 J270SDRReceiver::sptr
-J270SDRReceiver::make(int points)
+J270SDRReceiver::make(int points, bool dds)
 {
     return gnuradio::make_block_sptr<J270SDRReceiver_impl>(
-      points);
+      points, dds);
 }
 
 
 /*
  * The private constructor
  */
-J270SDRReceiver_impl::J270SDRReceiver_impl(int points)
+J270SDRReceiver_impl::J270SDRReceiver_impl(int points, bool dds)
   : gr::block("J270SDRReceiver",
           gr::io_signature::make(0 /* min inputs */, 0 /* max inputs */, 0),
           gr::io_signature::make(1 /* min outputs */, 1 /*max outputs */, sizeof(output_type)))
   , d_points(points), instance(init())
 {
-    if (instance)
+    if (instance) {
+        if (dds)
+            instance->getControl()->enableDDS();
+        else instance->getControl()->disableDDS();
         instance->startRxThread();
+    }
 }
 J270SDRReceiver_impl::~J270SDRReceiver_impl()
 {
@@ -57,10 +61,8 @@ J270SDRReceiver_impl::general_work (int noutput_items,
     buffer.resize(noutput_items * 2);
     auto status = instance->read((uint8_t*)buffer.data(), noutput_items * 4);
     if (status.second) {
-        if (status.first)
-            std::cout << "data corrupted" << std::endl;
         for (int i = 0; i < noutput_items; i++)
-            out[i] = output_type(buffer[i * 2] / 32767.0f, buffer[i * 2 + 1] / 32767.0f); // todo check this use 32767 is right or not
+            out[i] = output_type(buffer[i * 2] / 32767.0f, buffer[i * 2 + 1] / 32767.0f);
         d_read_points += noutput_items;
         if (d_read_points > d_points)
             return WORK_DONE;

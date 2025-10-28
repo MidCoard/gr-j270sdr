@@ -32,7 +32,7 @@ public:
      * class. j270sdr::J270SDRReceiver::make is the public interface for
      * creating new instances.
      */
-    static sptr make(int points);
+    static sptr make(int points, bool dds);
 };
 
 } // namespace j270sdr
