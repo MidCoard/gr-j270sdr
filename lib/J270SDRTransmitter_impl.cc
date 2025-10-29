@@ -61,11 +61,10 @@ namespace gr {
         for (size_t i = 0; i < len; i++){
             int16_t raw_i = std::clamp(in[i].real() * 8191.0f, -8192.0f, 8191.0f);
             int16_t raw_q = std::clamp(in[i].imag() * 8191.0f, -8192.0f, 8191.0f);
-            uint16_t vi = static_cast<uint16_t>(static_cast<uint16_t>(raw_i));
-            uint16_t vq = static_cast<uint16_t>(static_cast<uint16_t>(raw_i));
-            uint16_t v = ((i % 0xFF) << 8) | (i % 0xFF);
-            buffer_with_offset[i * 2]     = v;
-            buffer_with_offset[i * 2 + 1] = v;
+            uint16_t vi = swap16(static_cast<uint16_t>(raw_i));
+            uint16_t vq = swap16(static_cast<uint16_t>(raw_q));
+            buffer_with_offset[i * 2]     = vq;
+            buffer_with_offset[i * 2 + 1] = vi;
         }
 
         instance->write(reinterpret_cast<const uint8_t*>(buffer.data()), len * 4);
