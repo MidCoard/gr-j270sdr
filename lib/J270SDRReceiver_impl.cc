@@ -34,6 +34,7 @@ J270SDRReceiver_impl::J270SDRReceiver_impl(int points, bool dds)
   , d_points(points), instance(init())
 {
     if (instance) {
+        instance->getControl()->setR9BaseFrequency(J270SDRControl::F754M, 148200000);
         if (dds)
             instance->getControl()->enableDDS();
         else instance->getControl()->disableDDS();
