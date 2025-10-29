@@ -59,10 +59,10 @@ namespace gr {
         auto buffer_with_offset = buffer.data();
 
         for (size_t i = 0; i < len; i++){
-            int16_t raw_i = std::clamp(in[i].real() * 8191.0f, -8192.0f, 8191.0f);
-            int16_t raw_q = std::clamp(in[i].imag() * 8191.0f, -8192.0f, 8191.0f);
-            uint16_t vi = swap16(static_cast<uint16_t>(raw_i));
-            uint16_t vq = swap16(static_cast<uint16_t>(raw_q));
+            int16_t raw_i = std::clamp(in[i].real() * 32767.0f, -32768.0f, 32767.0f);
+            int16_t raw_q = std::clamp(in[i].imag() * 32767.0f, -32768.0f, 32767.0f);
+            uint16_t vi = (static_cast<uint16_t>(raw_i));
+            uint16_t vq = (static_cast<uint16_t>(raw_q));
             buffer_with_offset[i * 2]     = vq;
             buffer_with_offset[i * 2 + 1] = vi;
         }
