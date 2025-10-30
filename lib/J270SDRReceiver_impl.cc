@@ -39,6 +39,8 @@ J270SDRReceiver_impl::J270SDRReceiver_impl(int points, bool dds)
             instance->getControl()->enableDDS();
         else instance->getControl()->disableDDS();
         instance->startRxThread();
+        if (!instance->selfCalibrate())
+            std::cerr << "J270SDRReceiver_impl::J270SDRReceiver_impl calibration failed" << std::endl;
     }
 }
 J270SDRReceiver_impl::~J270SDRReceiver_impl()
@@ -59,7 +61,7 @@ J270SDRReceiver_impl::general_work (int noutput_items,
     if (!instance)
         return WORK_DONE;
     auto out = static_cast<output_type*>(output_items[0]);
-    buffer.resize(noutput_items * 2);
+    buffer.resize(noutput_items * 2 + 10);
     auto status = instance->read((uint8_t*)buffer.data(), noutput_items * 4);
     if (status.second) {
         for (int i = 0; i < noutput_items; i++)
