@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "J270SDR.h"
 #include "util.h"
+#include "LinkLayer.h"
 
 namespace gr {
 namespace j270sdr {
@@ -41,6 +42,26 @@ J270SDRReceiver_impl::J270SDRReceiver_impl(int points, bool dds)
         instance->startRxThread();
         if (!instance->selfCalibrate())
             std::cerr << "J270SDRReceiver_impl::J270SDRReceiver_impl calibration failed" << std::endl;
+
+        util::DataChunk preambleData(100);
+        for (int i = 0; i < 100; i++) {
+            preambleData[i] = 1;
+            preambleData[i + 100] = 0;
+        }
+
+        std::thread simuThread([&] {
+            auto modulation = std::make_unique<util::ASKModulation>(util::SamplesPerSymbol::SPS_4, 100, 100, std::move(preambleData));
+            BasicLayer basicLayer(instance, std::move(modulation));
+            PhysicalLayer layer(std::move(basicLayer));
+            LinkLayer linkLayer(std::move(layer));
+            while (true) {
+                util::DataChunk dataChunk(50);
+                for (int i = 0; i < 50;i++)
+                    dataChunk[i] = i;
+                linkLayer.postToLayer(std::move(dataChunk));
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
+        });
     }
 }
 J270SDRReceiver_impl::~J270SDRReceiver_impl()
