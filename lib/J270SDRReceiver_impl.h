@@ -18,12 +18,10 @@ class J270SDRReceiver_impl : public J270SDRReceiver
 {
 private:
     std::shared_ptr<J270SDR> instance;
-    int d_points;
-    int d_read_points = 0;
     std::thread thread;
 
 public:
-    explicit J270SDRReceiver_impl(int points, bool dds);
+    explicit J270SDRReceiver_impl(bool dds, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain);
     ~J270SDRReceiver_impl() override;
 
     void forecast (int noutput_items, gr_vector_int &ninput_items_required) override;

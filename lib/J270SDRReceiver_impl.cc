@@ -18,50 +18,78 @@ namespace j270sdr {
 using output_type = gr_complex;
 static std::vector<int16_t> buffer;
 J270SDRReceiver::sptr
-J270SDRReceiver::make(int points, bool dds)
+J270SDRReceiver::make(bool dds, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain)
 {
-    return gnuradio::make_block_sptr<J270SDRReceiver_impl>(
-      points, dds);
+    return gnuradio::make_block_sptr<J270SDRReceiver_impl>(dds, agc, channel, frequency, sampleRate, bandwidth, gain);
 }
 
+static J270SDRControl::SampleRate convertSampleRate(int sampleRate) {
+    switch (sampleRate) {
+        case 4000000: return J270SDRControl::S4M;
+        case 2000000: return J270SDRControl::S2M;
+        case 1333333: return J270SDRControl::S4_3M;
+        case 1000000: return J270SDRControl::S1M;
+        case 800000: return J270SDRControl::S800K;
+        case 666667: return J270SDRControl::S2000_3K;
+        case 500000: return J270SDRControl::S500K;
+        case 400000: return J270SDRControl::S400K;
+    default: return J270SDRControl::S4M;
+    }
+}
+
+
+static J270SDRControl::Bandwidth convertBandwidth(int bandwidth) {
+    switch (bandwidth) {
+        case 160000: return J270SDRControl::BW160K;
+        case 200000: return J270SDRControl::BW200K;
+        case 250000: return J270SDRControl::BW250K;
+        case 320000: return J270SDRControl::BW320K;
+        case 400000: return J270SDRControl::BW400K;
+        case 500000: return J270SDRControl::BW500K;
+        case 630000: return J270SDRControl::BW630K;
+        case 800000: return J270SDRControl::BW800K;
+        case 1000000: return J270SDRControl::BW1000K;
+        case 1250000: return J270SDRControl::BW1250K;
+        case 1600000: return J270SDRControl::BW1600K;
+        case 2000000: return J270SDRControl::BW2000K;
+    default: return J270SDRControl::BW2000K;
+    }
+
+}
 
 /*
  * The private constructor
  */
-J270SDRReceiver_impl::J270SDRReceiver_impl(int points, bool dds)
+J270SDRReceiver_impl::J270SDRReceiver_impl(bool dds, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain)
   : gr::block("J270SDRReceiver",
           gr::io_signature::make(0 /* min inputs */, 0 /* max inputs */, 0),
           gr::io_signature::make(1 /* min outputs */, 1 /*max outputs */, sizeof(output_type)))
-  , d_points(points), instance(init())
+  , instance(init())
 {
     if (instance) {
-        instance->getControl()->setR9BaseFrequency(J270SDRControl::F754M, 48200300);
+        J270SDRControl::Channel c = J270SDRControl::R9;
+        if (channel == "R9") {
+            instance->getControl()->enableR9();
+            c = J270SDRControl::R9;
+        } else {
+            instance->getControl()->enableR24();
+            c = J270SDRControl::R24;
+        }
+        instance->getControl()->setFrequency(c, frequency);
+        instance->getControl()->setRxSampleRate(c, convertSampleRate(sampleRate));
+        instance->getControl()->setBandwidth(c, convertBandwidth(bandwidth));
+        if (agc)
+            instance->getControl()->enableAGC(c);
+        else
+            instance->getControl()->disableAGC(c);
+        instance->getControl()->setAGCS(c, gain);
+        instance->getControl()->reset(c);
         if (dds)
             instance->getControl()->enableDDS();
         else instance->getControl()->disableDDS();
         instance->startRxThread();
         if (!instance->selfCalibrate())
             std::cerr << "J270SDRReceiver_impl::J270SDRReceiver_impl calibration failed" << std::endl;
-
-        // util::DataChunk preambleData(200);
-        // for (int i = 0; i < 100; i++) {
-        //     preambleData[i] = 1;
-        //     preambleData[i + 100] = 0;
-        // }
-        //
-        // thread = std::thread([&] {
-        //     auto modulation = std::make_unique<util::ASKModulation>(util::SamplesPerSymbol::SPS_4, 100, 100, std::move(preambleData));
-        //     BasicLayer basicLayer(instance, std::move(modulation));
-        //     PhysicalLayer layer(std::move(basicLayer));
-        //     LinkLayer linkLayer(std::move(layer));
-        //     while (true) {
-        //         util::DataChunk dataChunk(50);
-        //         for (int i = 0; i < 50;i++)
-        //             dataChunk[i] = i;
-        //         linkLayer.postToLayer(std::move(dataChunk));
-        //         std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        //     }
-        // });
     }
 }
 J270SDRReceiver_impl::~J270SDRReceiver_impl()
@@ -87,9 +115,6 @@ J270SDRReceiver_impl::general_work (int noutput_items,
     if (status.second) {
         for (int i = 0; i < noutput_items; i++)
             out[i] = output_type(buffer[i * 2] / 32767.0f, buffer[i * 2 + 1] / 32767.0f);
-        d_read_points += noutput_items;
-        if (d_read_points > d_points)
-            return WORK_DONE;
         return noutput_items;
     }
     std::cout << "J270SDRReceiver_impl::general_work read failed" << std::endl;

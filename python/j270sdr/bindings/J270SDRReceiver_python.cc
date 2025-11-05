@@ -37,8 +37,13 @@ void bind_J270SDRReceiver(py::module& m)
         std::shared_ptr<J270SDRReceiver>>(m, "J270SDRReceiver", D(J270SDRReceiver))
 
         .def(py::init(&J270SDRReceiver::make),
-           py::arg("points"),
            py::arg("dds"),
+           py::arg("agc"),
+            py::arg("channel"),
+            py::arg("frequency"),
+            py::arg("sampleRate"),
+            py::arg("bandwidth"),
+            py::arg("gain"),
            D(J270SDRReceiver,make)
         )
         

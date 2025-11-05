@@ -4,19 +4,37 @@ category: '[j270sdr]'
 
 templates:
   imports: from gnuradio import j270sdr
-  make: j270sdr.J270SDRReceiver(${points}, ${dds})
+  make: j270sdr.J270SDRReceiver(${dds}, ${agc}, ${channel}, ${frequency}, ${sampleRate}, ${bandwidth}, ${gain})
 
 parameters:
-  - id: points
-    label: Points
-    dtype: int
-    default: 10240
-
-
   - id: dds
-    label: Use DDS or not
+    label: Internal DDS
     dtype: bool
     default: False
+  - id: agc
+    label: Auto Gain Control
+    dtype: bool
+    default: False
+  - id: channel
+    label: Channel Selection
+    dtype: enum
+    options: [R9, R24]
+  - id: frequency
+    label: Carrier Frequency (Hz)
+    dtype: float
+    default: 902.2e6
+  - id: sampleRate
+    label: Sample Rate (Sps)
+    dtype: enum
+    options: [4000000, 2000000, 1333333, 1000000, 800000, 666667, 500000, 400000]
+  - id: bandwidth
+    label: Channel Bandwidth (Hz)
+    dtype: enum
+    options: [160000, 200000, 250000, 320000, 400000, 500000, 630000, 800000, 1000000, 1250000, 1600000, 2000000]
+  - id: gain
+    label: Gain (dB)
+    dtype: int
+    default: 23
 
 
 inputs: []
