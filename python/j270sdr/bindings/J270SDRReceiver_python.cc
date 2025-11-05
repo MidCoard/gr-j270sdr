@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(1)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(J270SDRReceiver.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(db663d29905df83948ddfd05c14f40dd)                     */
+/* BINDTOOL_HEADER_FILE_HASH(d1f915358da2267f8b78120096a8ee67)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -23,7 +23,7 @@
 
 namespace py = pybind11;
 
-#include <gnuradio/j270sdr/J270SDRReceiver.h>
+#include <j270sdr/J270SDRReceiver.h>
 // pydoc.h is automatically generated in the build directory
 #include <J270SDRReceiver_pydoc.h>
 
@@ -37,7 +37,8 @@ void bind_J270SDRReceiver(py::module& m)
         std::shared_ptr<J270SDRReceiver>>(m, "J270SDRReceiver", D(J270SDRReceiver))
 
         .def(py::init(&J270SDRReceiver::make),
-           py::arg("points"),py::arg("dds"),
+           py::arg("points"),
+           py::arg("dds"),
            D(J270SDRReceiver,make)
         )
         

@@ -20,6 +20,7 @@ private:
     std::shared_ptr<J270SDR> instance;
     int d_points;
     int d_read_points = 0;
+    std::thread thread;
 
 public:
     explicit J270SDRReceiver_impl(int points, bool dds);
