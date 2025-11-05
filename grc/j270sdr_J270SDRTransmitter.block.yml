@@ -4,13 +4,35 @@ category: '[j270sdr]'
 
 templates:
   imports: from gnuradio import j270sdr
-  make: j270sdr.J270SDRTransmitter(${a})
+  make: j270sdr.J270SDRTransmitter(${name}, ${dds}, ${channel}, ${frequency}, ${sampleRate}, ${gain})
 
 parameters:
-- id: a
-  label: a (test)
-  dtype: float
-  default: 1
+  - id: name
+    label: Device Name
+    dtype: string
+    default: ''
+  - id: dds
+    label: Internal DDS
+    dtype: bool
+    default: False
+  - id: channel
+    label: Channel Selection
+    dtype: string
+    default: 'R9'
+    options: ['R9', 'R24']
+  - id: frequency
+    label: Carrier Frequency (Hz)
+    dtype: float
+    default: 902.2e6
+  - id: sampleRate
+    label: Sample Rate (Sps)
+    dtype: int
+    default: 4000000
+    options: [ 4000000, 2000000, 1333333, 1000000, 800000, 666667, 500000, 400000 ]
+  - id: gain
+    label: Gain (dB)
+    dtype: int
+    default: 15
 
 inputs:
 - label: in

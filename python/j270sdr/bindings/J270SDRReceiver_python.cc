@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(1)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(J270SDRReceiver.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(d1f915358da2267f8b78120096a8ee67)                     */
+/* BINDTOOL_HEADER_FILE_HASH(f34854e69e23fd33eefa722a1faceb42)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -37,13 +37,13 @@ void bind_J270SDRReceiver(py::module& m)
         std::shared_ptr<J270SDRReceiver>>(m, "J270SDRReceiver", D(J270SDRReceiver))
 
         .def(py::init(&J270SDRReceiver::make),
-           py::arg("dds"),
+           py::arg("name"),
            py::arg("agc"),
-            py::arg("channel"),
-            py::arg("frequency"),
-            py::arg("sampleRate"),
-            py::arg("bandwidth"),
-            py::arg("gain"),
+           py::arg("channel"),
+           py::arg("frequency"),
+           py::arg("sampleRate"),
+           py::arg("bandwidth"),
+           py::arg("gain"),
            D(J270SDRReceiver,make)
         )
         

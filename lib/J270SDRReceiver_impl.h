@@ -9,7 +9,7 @@
 #define INCLUDED_J270SDR_J270SDRRECEIVER_IMPL_H
 
 #include <gnuradio/j270sdr/J270SDRReceiver.h>
-#include "GRScope.h"
+#include <J270SDR.h>
 
 namespace gr {
 namespace j270sdr {
@@ -21,7 +21,7 @@ private:
     std::thread thread;
 
 public:
-    explicit J270SDRReceiver_impl(bool dds, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain);
+    explicit J270SDRReceiver_impl(const std::string& name, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain);
     ~J270SDRReceiver_impl() override;
 
     void forecast (int noutput_items, gr_vector_int &ninput_items_required) override;

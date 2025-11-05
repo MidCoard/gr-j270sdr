@@ -15,7 +15,10 @@
  */
 
 
-static const char* __doc_gr_j270sdr_J270SDRTransmitter = R"doc()doc";
+
+ static const char *__doc_gr_j270sdr_J270SDRTransmitter = R"doc()doc";
 
 
-static const char* __doc_gr_j270sdr_J270SDRTransmitter_make = R"doc()doc";
+ static const char *__doc_gr_j270sdr_J270SDRTransmitter_make = R"doc()doc";
+
+  

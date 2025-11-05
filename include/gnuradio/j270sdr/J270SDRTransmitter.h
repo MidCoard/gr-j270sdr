@@ -32,7 +32,7 @@ namespace gr {
        * class. j270sdr::J270SDRTransmitter::make is the public interface for
        * creating new instances.
        */
-      static sptr make(float a);
+      static sptr make(const std::string& name, bool dds, const std::string& channel, float frequency, int sampleRate, int gain);
     };
 
   } // namespace j270sdr

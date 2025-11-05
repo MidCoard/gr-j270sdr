@@ -9,7 +9,8 @@
 #define INCLUDED_J270SDR_J270SDRTRANSMITTER_IMPL_H
 
 #include <gnuradio/j270sdr/J270SDRTransmitter.h>
-#include "GRScope.h"
+
+#include <J270SDR.h>
 
 namespace gr {
   namespace j270sdr {
@@ -20,7 +21,8 @@ namespace gr {
       std::shared_ptr<J270SDR> instance;
 
      public:
-      J270SDRTransmitter_impl(float a);
+      J270SDRTransmitter_impl(const std::string& name, bool dds,
+                                 const std::string& channel, float frequency, int sampleRate, int gain);
       ~J270SDRTransmitter_impl() override = default;
 
       // Where all the action really happens

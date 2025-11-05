@@ -18,9 +18,9 @@ namespace j270sdr {
 using output_type = gr_complex;
 static std::vector<int16_t> buffer;
 J270SDRReceiver::sptr
-J270SDRReceiver::make(bool dds, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain)
+J270SDRReceiver::make(const std::string& name, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain)
 {
-    return gnuradio::make_block_sptr<J270SDRReceiver_impl>(dds, agc, channel, frequency, sampleRate, bandwidth, gain);
+    return gnuradio::make_block_sptr<J270SDRReceiver_impl>(name, agc, channel, frequency, sampleRate, bandwidth, gain);
 }
 
 static J270SDRControl::SampleRate convertSampleRate(int sampleRate) {
@@ -60,21 +60,32 @@ static J270SDRControl::Bandwidth convertBandwidth(int bandwidth) {
 /*
  * The private constructor
  */
-J270SDRReceiver_impl::J270SDRReceiver_impl(bool dds, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain)
+J270SDRReceiver_impl::J270SDRReceiver_impl(const std::string& name, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain)
   : gr::block("J270SDRReceiver",
           gr::io_signature::make(0 /* min inputs */, 0 /* max inputs */, 0),
           gr::io_signature::make(1 /* min outputs */, 1 /*max outputs */, sizeof(output_type)))
-  , instance(init())
 {
+    try {
+        instance = J270SDR::getInstance(name);
+    } catch (const std::exception& e) {
+        std::cerr << "Cannot open J270 device: " << e.what() << std::endl;
+        auto devices = J270SDR::listUSBDevices();
+        if (devices.empty())
+            std::cerr << "No J270 device found." << std::endl;
+        else {
+            std::cerr << "Available devices: " << std::endl;
+            for (const auto& dev : devices)
+                std::cerr << dev << std::endl;
+        }
+        instance = nullptr;
+    }
     if (instance) {
         J270SDRControl::Channel c = J270SDRControl::R9;
-        if (channel == "R9") {
-            instance->getControl()->enableR9();
-            c = J270SDRControl::R9;
-        } else {
-            instance->getControl()->enableR24();
+        if (channel == "R24") {
             c = J270SDRControl::R24;
+            instance->getControl()->enableR24();
         }
+        instance->getControl()->useRxTx(c, instance->getControl()->getTxChannel());
         instance->getControl()->setFrequency(c, frequency);
         instance->getControl()->setRxSampleRate(c, convertSampleRate(sampleRate));
         instance->getControl()->setBandwidth(c, convertBandwidth(bandwidth));
@@ -83,15 +94,13 @@ J270SDRReceiver_impl::J270SDRReceiver_impl(bool dds, bool agc, const std::string
         else
             instance->getControl()->disableAGC(c);
         instance->getControl()->setAGCS(c, gain);
-        instance->getControl()->reset(c);
-        if (dds)
-            instance->getControl()->enableDDS();
-        else instance->getControl()->disableDDS();
+        instance->getControl()->resetRx(c);
         instance->startRxThread();
         if (!instance->selfCalibrate())
             std::cerr << "J270SDRReceiver_impl::J270SDRReceiver_impl calibration failed" << std::endl;
     }
 }
+
 J270SDRReceiver_impl::~J270SDRReceiver_impl()
 {
 }
@@ -110,7 +119,7 @@ J270SDRReceiver_impl::general_work (int noutput_items,
     if (!instance)
         return WORK_DONE;
     auto out = static_cast<output_type*>(output_items[0]);
-    buffer.resize(noutput_items * 2 + 10);
+    buffer.resize(noutput_items * 2);
     auto status = instance->read((uint8_t*)buffer.data(), noutput_items * 4);
     if (status.second) {
         for (int i = 0; i < noutput_items; i++)
