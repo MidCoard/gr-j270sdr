@@ -1,0 +1,18 @@
+id: j270sdr_VirtualBasicLayer
+label: VirtualBasicLayer
+category: '[j270sdr]'
+
+templates:
+  imports: from gnuradio import j270sdr
+  make: j270sdr.VirtualBasicLayer()
+
+parameters:
+
+inputs:
+  - label: in
+    domain: stream
+    dtype: complex
+
+outputs:
+
+file_format: 1

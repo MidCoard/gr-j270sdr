@@ -121,7 +121,7 @@ J270SDRReceiver_impl::general_work (int noutput_items,
     auto out = static_cast<output_type*>(output_items[0]);
     buffer.resize(noutput_items * 2);
     auto status = instance->read((uint8_t*)buffer.data(), noutput_items * 4);
-    if (status.second) {
+    if (status) {
         for (int i = 0; i < noutput_items; i++)
             out[i] = output_type(buffer[i * 2] / 32767.0f, buffer[i * 2 + 1] / 32767.0f);
         return noutput_items;
