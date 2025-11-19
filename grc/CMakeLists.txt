@@ -8,6 +8,4 @@
 
 install(FILES
     j270sdr_J270SDRReceiver.block.yml
-    j270sdr_J270SDRTransmitter.block.yml
-    j270sdr_VirtualBasicLayer.block.yml
-    j270sdr_VirtualModulation.block.yml DESTINATION share/gnuradio/grc/blocks)
+    j270sdr_J270SDRTransmitter.block.yml DESTINATION share/gnuradio/grc/blocks)
