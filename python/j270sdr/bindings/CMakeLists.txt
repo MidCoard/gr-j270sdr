@@ -1,10 +1,3 @@
-# Copyright 2020 Free Software Foundation, Inc.
-#
-# This file is part of GNU Radio
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
-#
-
 ########################################################################
 # Check if there is C++ code at all
 ########################################################################
@@ -14,9 +7,9 @@ if (NOT j270sdr_sources)
 endif (NOT j270sdr_sources)
 
 ########################################################################
-# Check for pygccxml
+# Remove pygccxml requirement (we use pre-generated bindings)
 ########################################################################
-gr_python_check_module_raw("pygccxml" "import pygccxml" PYGCCXML_FOUND)
+# gr_python_check_module_raw("pygccxml" "import pygccxml" PYGCCXML_FOUND)
 
 include(GrPybind)
 
@@ -27,10 +20,16 @@ include(GrPybind)
 list(APPEND j270sdr_python_files
         J270SDRReceiver_python.cc
         J270SDRTransmitter_python.cc
-    VirtualBasicLayer_python.cc
-    VirtualModulation_python.cc python_bindings.cc)
+        python_bindings.cc)
 
-gr_pybind_make_oot(j270sdr ../../.. gr::j270sdr "${j270sdr_python_files}")
+# Tell GNU Radio that bindings are pre-generated / manual
+gr_pybind_make_oot(
+        j270sdr
+        ../../..
+        gr::j270sdr
+        "${j270sdr_python_files}"
+        MANUAL
+)
 
 # copy bindings extension for use in QA test module
 add_custom_command(

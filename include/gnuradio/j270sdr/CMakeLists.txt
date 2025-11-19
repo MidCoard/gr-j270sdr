@@ -12,5 +12,4 @@
 install(FILES api.h
         J270SDRReceiver.h
         J270SDRTransmitter.h
-    VirtualBasicLayer.h
-    VirtualModulation.h DESTINATION include/gnuradio/j270sdr)
+        DESTINATION include/gnuradio/j270sdr)

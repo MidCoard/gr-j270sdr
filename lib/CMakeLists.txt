@@ -13,9 +13,7 @@ include(GrPlatform) #define LIB_SUFFIX
 
 list(APPEND j270sdr_sources
     J270SDRReceiver_impl.cc
-    J270SDRTransmitter_impl.cc
-    VirtualBasicLayer_impl.cc
-    VirtualModulation_impl.cc )
+    J270SDRTransmitter_impl.cc)
 
 set(j270sdr_sources
     "${j270sdr_sources}"

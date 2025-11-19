@@ -101,47 +101,10 @@ J270SDRReceiver_impl::J270SDRReceiver_impl(const std::string& name, bool agc, co
         if (!instance->selfCalibrate())
             std::cerr << "J270SDRReceiver_impl::J270SDRReceiver_impl calibration failed" << std::endl;
     }
-    instance->getControl()->disableDDS();
-    instance->getControl()->setTransmitPower(J270SDRControl::R9, 5);
-    instance->getControl()->setFrequency(J270SDRControl::R9, 875e6);
-    instance->getControl()->reset(J270SDRControl::R9);
-    util::DataChunk preambleData(240);
-    for (int i = 0; i < 80; i++)
-        preambleData[i] = 1;
-    for (int i = 80; i < 160; i++)
-        preambleData[i] = 0;
-    for (int i = 160; i < 200; i++)
-        preambleData[i] = 1;
-    for (int i = 200; i < 240; i++)
-        preambleData[i] = 0;
-    auto modulation = std::make_unique<util::ASKModulation>(util::SamplesPerSymbol::SPS_4, 100, 100, std::move(preambleData));
-    basicLayer = new BasicLayer(instance, std::move(modulation));
-    layer = new PhysicalLayer(*basicLayer, PhysicalLayer::FrameType::FEC_HAMMING74);
-    linkLayer = new LinkLayer(*layer);
-
-    thread = std::thread([&] {
-        while (!d_stop) {
-            const int N = 27;
-            util::DataChunk dataChunk(N);
-            for (int i = 0; i < N;i++)
-                dataChunk[i] = 1;
-            linkLayer->postToLayer(std::move(dataChunk));
-            // sendPackNum++;
-            std::this_thread::sleep_for(std::chrono::milliseconds(10) );
-            // std::cout << "Sent packets: " << sendPackNum.load() << ", Received packets: " << recvPackNum.load() << ", Loss: " << (sendPackNum.load() - recvPackNum.load()) / (float)sendPackNum.load() * 100 << "%" << std::endl;
-        }
-    });
-
 }
 
 J270SDRReceiver_impl::~J270SDRReceiver_impl()
 {
-    d_stop = true;
-    if (thread.joinable())
-            thread.join();
-    delete linkLayer;
-    delete layer;
-    delete basicLayer;
 }
 
 void
