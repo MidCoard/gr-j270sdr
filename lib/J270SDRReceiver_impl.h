@@ -9,7 +9,10 @@
 #define INCLUDED_J270SDR_J270SDRRECEIVER_IMPL_H
 
 #include <gnuradio/j270sdr/J270SDRReceiver.h>
+
+#include <BasicLayer.h>
 #include <J270SDR.h>
+#include <LinkLayer.h>
 
 namespace gr {
 namespace j270sdr {
@@ -19,6 +22,10 @@ class J270SDRReceiver_impl : public J270SDRReceiver
 private:
     std::shared_ptr<J270SDR> instance;
     std::thread thread;
+    std::atomic<bool> d_stop = false;
+    BasicLayer* basicLayer;
+    PhysicalLayer* layer;
+    LinkLayer* linkLayer;
 
 public:
     explicit J270SDRReceiver_impl(const std::string& name, bool agc, const std::string& channel, float frequency, int sampleRate, int bandwidth, int gain);
