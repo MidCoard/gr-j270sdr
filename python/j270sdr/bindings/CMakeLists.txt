@@ -38,7 +38,14 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:j270sdr_python>
         ${PROJECT_BINARY_DIR}/test_modules/gnuradio/j270sdr/)
 
-install(
-        TARGETS j270sdr_python
-        DESTINATION ${GR_PYTHON_DIR}/../../../lib/site-packages/gnuradio/j270sdr
-        COMPONENT pythonapi)
+if (WIN32)
+    install(
+            TARGETS j270sdr_python
+            DESTINATION ${GR_PYTHON_DIR}/../../../lib/site-packages/gnuradio/j270sdr
+            COMPONENT pythonapi)
+elseif(APPLE)
+    install(
+            TARGETS j270sdr_python
+            DESTINATION ${GR_PYTHON_DIR}/gnuradio/j270sdr
+            COMPONENT pythonapi)
+endif ()

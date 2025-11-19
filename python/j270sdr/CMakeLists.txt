@@ -19,7 +19,11 @@ add_subdirectory(bindings)
 ########################################################################
 # Install python sources
 ########################################################################
-gr_python_install(FILES __init__.py DESTINATION ${GR_PYTHON_DIR}/../../../lib/site-packages/gnuradio/j270sdr)
+if (WIN32)
+    gr_python_install(FILES __init__.py DESTINATION ${GR_PYTHON_DIR}/../../../lib/site-packages/gnuradio/j270sdr)
+elseif (APPLE)
+    gr_python_install(FILES __init__.py DESTINATION ${GR_PYTHON_DIR}/gnuradio/j270sdr)
+endif ()
 
 ########################################################################
 # Handle the unit tests

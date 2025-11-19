@@ -23,8 +23,6 @@ namespace py = pybind11;
 // BINDING_FUNCTION_PROTOTYPES(
     void bind_J270SDRReceiver(py::module& m);
     void bind_J270SDRTransmitter(py::module& m);
-    void bind_VirtualBasicLayer(py::module& m);
-    void bind_VirtualModulation(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -55,7 +53,5 @@ PYBIND11_MODULE(j270sdr_python, m)
     // BINDING_FUNCTION_CALLS(
     bind_J270SDRReceiver(m);
     bind_J270SDRTransmitter(m);
-    bind_VirtualBasicLayer(m);
-    bind_VirtualModulation(m);
     // ) END BINDING_FUNCTION_CALLS
 }
