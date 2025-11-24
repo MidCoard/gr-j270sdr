@@ -9,11 +9,12 @@
 #include <gnuradio/io_signature.h>
 #include "J270SDRTransmitter_impl.h"
 
+#include <util.h>
+
 namespace gr {
   namespace j270sdr {
 
     using input_type = gr_complex;
-    static std::vector<uint16_t> buffer;
     J270SDRTransmitter::sptr
     J270SDRTransmitter::make(const std::string& name, bool dds, const std::string& channel, float frequency, int sampleRate, int gain)
     {
@@ -95,20 +96,9 @@ namespace gr {
             return WORK_DONE;
         }
 
-        auto in = static_cast<const input_type*>(input_items[0]);
-        buffer.resize(len * 2 + 2);
-        auto buffer_with_offset = buffer.data();
-
-        for (size_t i = 0; i < len; i++){
-            int16_t raw_i = std::clamp(in[i].real() * 32767.0f, -32768.0f, 32767.0f);
-            int16_t raw_q = std::clamp(in[i].imag() * 32767.0f, -32768.0f, 32767.0f);
-            uint16_t vi = static_cast<uint16_t>(raw_i);
-            uint16_t vq = static_cast<uint16_t>(raw_q);
-            buffer_with_offset[i * 2]     = vq;
-            buffer_with_offset[i * 2 + 1] = vi;
-        }
-
-        instance->write(reinterpret_cast<const uint8_t*>(buffer.data()), len * 4);
+        auto in = (input_type*)input_items[0];
+        auto chunk = util::packIQ(in, len, true);
+        instance->write(chunk.data, chunk.size);
         consume_each(len);
         return 0;
     }
