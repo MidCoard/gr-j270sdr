@@ -10,9 +10,7 @@
 #include <algorithm>
 #include "J270SDR.h"
 #include "util.h"
-#include "LinkLayer.h"
-
-#include <ASKModulation.h>
+#include "layer/LinkLayer.h"
 
 namespace gr {
 namespace j270sdr {

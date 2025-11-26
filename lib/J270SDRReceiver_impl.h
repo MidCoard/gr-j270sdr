@@ -10,9 +10,9 @@
 
 #include <gnuradio/j270sdr/J270SDRReceiver.h>
 
-#include <BasicLayer.h>
+#include <layer/BasicLayer.h>
 #include <J270SDR.h>
-#include <LinkLayer.h>
+#include <layer/LinkLayer.h>
 
 namespace gr {
 namespace j270sdr {
